@@ -1,0 +1,16 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "net6-jwt-dapper", "net6-jwt-dapper\net6-jwt-dapper.csproj", "{116E96FA-7185-4683-A2F0-5ED0EDF9E2A5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{116E96FA-7185-4683-A2F0-5ED0EDF9E2A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{116E96FA-7185-4683-A2F0-5ED0EDF9E2A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{116E96FA-7185-4683-A2F0-5ED0EDF9E2A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{116E96FA-7185-4683-A2F0-5ED0EDF9E2A5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
