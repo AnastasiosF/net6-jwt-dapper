@@ -3,6 +3,12 @@ using Microsoft.Data.SqlClient;
 
 namespace net6_jwt_dapper.Context;
 
+/**
+ * Here you can create your own "Connection Pooling" if you want.
+ * Notice that if you will user Oracle as DB, has default enabled
+ * the connection pooling. For other DBs you have to do your own
+ * search.
+ */
 public class DapperContext
 {
     private readonly IConfiguration _configuration;
@@ -13,7 +19,8 @@ public class DapperContext
         _configuration = configuration;
         _connectionString = _configuration.GetConnectionString("SqlConnection");
     }
-
+    
+    
     public IDbConnection CreateConnection()
         => new SqlConnection(_connectionString);
 } 
