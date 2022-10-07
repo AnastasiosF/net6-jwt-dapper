@@ -1,12 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using net6_jwt_dapper.Helpers;
-using net6_jwt_dapper.Repositories;
 using net6_jwt_dapper.Services;
 
 namespace net6_jwt_dapper.Controllers;
 
 [Route("api/companies")]
-[Authorize]
 [ApiController]
 public class CompaniesController : ControllerBase
 {

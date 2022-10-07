@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using net6_jwt_dapper.Entities;
-using net6_jwt_dapper.Helpers;
 using net6_jwt_dapper.Services;
 
 namespace net6_jwt_dapper.Controllers
@@ -18,6 +18,7 @@ namespace net6_jwt_dapper.Controllers
         }
 
         [HttpPost("authenticate")]
+        [AllowAnonymous]
         public IActionResult Authenticate(AuthenticateRequest model)
         {
             var response = _userService.Authenticate(model);
@@ -28,7 +29,6 @@ namespace net6_jwt_dapper.Controllers
             return Ok(response);
         }
 
-        [Authorize]
         [HttpGet("getAll")]
         public IActionResult GetAll()
         {

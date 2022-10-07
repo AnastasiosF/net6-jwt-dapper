@@ -15,14 +15,14 @@ namespace net6_jwt_dapper.Services
         new User { Id = 1, FirstName = "Test", LastName = "User", Username = "test", Password = "test" }
     };
 
-        private readonly AppSettings _appSettings;
+        private readonly IConfiguration _configuration;
 
-        public UserService(IOptions<AppSettings> appSettings)
+        public UserService(IConfiguration configuration)
         {
-            _appSettings = appSettings.Value;
+            _configuration = configuration;
         }
 
-        public AuthenticateResponse Authenticate(AuthenticateRequest model)
+        public AuthenticateResponse? Authenticate(AuthenticateRequest model)
         {
             var user = _users.SingleOrDefault(x => x.Username == model.Username && x.Password == model.Password);
 
@@ -49,17 +49,28 @@ namespace net6_jwt_dapper.Services
 
         private string generateJwtToken(User user)
         {
-            // generate token that is valid for 7 days
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
+            var issuer = _configuration.GetValue<string>("Jwt:Issuer");
+            var audience = _configuration.GetValue<string>("Jwt:Audience");
+            var key = Encoding.ASCII.GetBytes(_configuration.GetValue<string>("Jwt:Key"));
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(new[] { new Claim("id", user.Id.ToString()) }),
-                Expires = DateTime.UtcNow.AddDays(7),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                Subject = new ClaimsIdentity(new[]
+                {
+                    new Claim("Id", Guid.NewGuid().ToString()),
+                    new Claim(JwtRegisteredClaimNames.Jti,
+                        Guid.NewGuid().ToString())
+                }),
+                Expires = DateTime.UtcNow.AddMinutes(5),
+                Issuer = issuer,
+                Audience = audience,
+                SigningCredentials = new SigningCredentials
+                (new SymmetricSecurityKey(key),
+                    SecurityAlgorithms.HmacSha512Signature)
             };
+            var tokenHandler = new JwtSecurityTokenHandler();
             var token = tokenHandler.CreateToken(tokenDescriptor);
-            return tokenHandler.WriteToken(token);
+            var stringToken = tokenHandler.WriteToken(token);
+            return stringToken;
         }
     }
 }
